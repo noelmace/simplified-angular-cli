@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+'use strict';
+
+try {
+  process.title = 'sng ' + Array.from(process.argv).slice(2).join(' ');
+} catch(_) {
+  process.title = 'sng';
+}
+
+require('./dist/index');

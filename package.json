@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "simplified version of @angular/cli for demo",
   "main": "index.js",
+  "bin": {
+    "sng": "./sng"
+  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w"
