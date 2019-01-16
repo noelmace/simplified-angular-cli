@@ -1,6 +1,6 @@
 {
   "name": "simplified-angular-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "simplified version of @angular/cli for demo",
   "main": "index.js",
   "bin": {
