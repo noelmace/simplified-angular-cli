@@ -1,14 +1,19 @@
-const sngCommands = ['help'];
+const commandMap: { [key: string]: () => any } = {
+  help: () => {
+    console.log(`everything looks fine, you do not need help`);
+  }
+};
 
-function runCommand(arguments: string[]) {
-  if (arguments.length < 1) {
+function runCommand(args: string[]) {
+  if (args.length < 1) {
     throw new Error('Unable to find a command to run');
   }
-  const commandName: string = arguments.shift()!;
-  if (!sngCommands.includes(commandName)) {
+  const commandName: string = args.shift()!;
+  if (!(commandName in commandMap)) {
     return 1;
   }
-  console.log(`everything looks fine`);
+  const command = commandMap[commandName];
+  command();
   return 0;
 }
 
@@ -19,7 +24,7 @@ if (process.argv.length < 1) {
 
 try {
   runCommand(process.argv.slice(2));
-} catch(err) {
+} catch (err) {
   if (err && err.message) {
     console.log(err.message);
   } else {
