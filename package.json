@@ -1,0 +1,11 @@
+{
+  "name": "simplified-angular-cli",
+  "version": "0.0.0",
+  "description": "simplified version of @angular/cli for demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noël Macé <contact@noelmace.com>",
+  "license": "MIT"
+}
