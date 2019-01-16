@@ -5,16 +5,12 @@ const commandMap: { [key: string]: () => any } = {
 };
 
 function runCommand(args: string[]) {
-  if (args.length < 1) {
-    throw new Error('Unable to find a command to run');
-  }
   const commandName: string = args.shift()!;
-  if (!(commandName in commandMap)) {
-    return 1;
+  if (!commandName || !(commandName in commandMap)) {
+    throw new Error('Unable to find a command to run');
   }
   const command = commandMap[commandName];
   command();
-  return 0;
 }
 
 if (process.argv.length < 1) {
