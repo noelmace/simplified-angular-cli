@@ -1,4 +1,4 @@
-const sngCommands = ['build'];
+const sngCommands = ['help'];
 
 function runCommand(arguments: string[]) {
   if (arguments.length < 1) {
@@ -8,7 +8,7 @@ function runCommand(arguments: string[]) {
   if (!sngCommands.includes(commandName)) {
     return 1;
   }
-  console.log(`nothing to do with ${commandName} for now`);
+  console.log(`everything looks fine`);
   return 0;
 }
 
