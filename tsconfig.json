@@ -35,10 +35,7 @@
     ],
     "types": [
       "node"
-    ],
-    "paths": {
-      "simplified-cli": [ "./*" ]
-    }
+    ]
   },
   "exclude": [
     "tmp/**/*",
