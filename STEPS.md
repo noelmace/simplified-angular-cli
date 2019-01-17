@@ -31,7 +31,6 @@
 ### Features
 
 * define what a command should do a8412b3
-* identify a command to run 596cbf9
 
 
 
