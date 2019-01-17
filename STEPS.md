@@ -1,3 +1,19 @@
+## [0.0.4](/compare/v0.0.3...v0.0.4) (2019-01-17)
+
+
+### Bug Fixes
+
+* validate command exist b1efcea
+
+
+### Features
+
+* get architect config 99ba977
+* get config using @angular-devkit/core b7c9a84
+* read workspace configuration 32914f9
+
+
+
 ## [0.0.3](/compare/v0.0.1...v0.0.3) (2019-01-16)
 
 
