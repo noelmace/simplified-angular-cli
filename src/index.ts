@@ -1,6 +1,9 @@
 import { readFileSync } from 'fs';
 import { existsSync } from 'fs';
 import * as path from 'path';
+import { experimental, normalize, dirname } from '@angular-devkit/core';
+import { NodeJsSyncHost } from '@angular-devkit/core/node';
+import { Observable } from 'rxjs';
 
 function findUp(name: string, from: string) {
   const root = path.parse(from).root;
@@ -18,19 +21,19 @@ function findUp(name: string, from: string) {
   return null;
 }
 
-function getWorkspaceConfig(): any {
+function getWorkspace(): Observable<experimental.workspace.Workspace> {
   const configFilePath = findUp('angular.json', process.cwd());
   if (configFilePath === null) {
     throw new Error(`This command requires to be run in an Angular project, but a project definition could not be found.`);
   }
+  const root = dirname(normalize(configFilePath));
+  const configContent = readFileSync(configFilePath, 'utf-8');
+  const workspaceJson = JSON.parse(configContent);
 
-  const config = readFileSync(configFilePath, 'UTF-8');
-  return JSON.parse(config);
-}
+  const host = new NodeJsSyncHost();
+  const workspace = new experimental.workspace.Workspace(root, host);
 
-function getArchitectTarget(target: string, project?: string): any {
-  const config = getWorkspaceConfig();
-  return config.projects[project || config.defaultProject].architect[target];
+  return workspace.loadWorkspaceFromJson(workspaceJson);
 }
 
 const commandMap: { [key: string]: (args: string[]) => any } = {
@@ -38,8 +41,7 @@ const commandMap: { [key: string]: (args: string[]) => any } = {
     console.log(`everything looks fine, you do not need help`);
   },
   build: ([project]) => {
-    const config = getArchitectTarget('build', project);
-    console.log(config);
+    getWorkspace().subscribe(console.log)
   }
 };
 
