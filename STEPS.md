@@ -1,3 +1,14 @@
+## [0.0.5](/compare/v0.0.4...v0.0.5) (2019-01-17)
+
+
+### Features
+
+* handle all "simple" architect commands 816aa78
+* run architect 09dab86
+* use @angular-devkit/architect to retrieve builder configuration bab3d0f
+
+
+
 ## [0.0.4](/compare/v0.0.3...v0.0.4) (2019-01-17)
 
 
