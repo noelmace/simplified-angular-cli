@@ -28,12 +28,17 @@ function getWorkspaceConfig(): any {
   return JSON.parse(config);
 }
 
-const commandMap: { [key: string]: () => any } = {
+function getArchitectTarget(target: string, project?: string): any {
+  const config = getWorkspaceConfig();
+  return config.projects[project || config.defaultProject].architect[target];
+}
+
+const commandMap: { [key: string]: (args: string[]) => any } = {
   help: () => {
     console.log(`everything looks fine, you do not need help`);
   },
-  build: () => {
-    const config = getWorkspaceConfig();
+  build: ([project]) => {
+    const config = getArchitectTarget('build', project);
     console.log(config);
   }
 };
@@ -44,7 +49,7 @@ function runCommand(args: string[]) {
     throw new Error('Unable to find a command to run');
   }
   const command = commandMap[commandName];
-  command();
+  command(args);
 }
 
 if (process.argv.length < 1) {
