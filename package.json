@@ -9,13 +9,18 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "version": "conventional-changelog -p angular -i STEPS.md -s && git add STEPS.md"
+    "version": "conventional-changelog -p angular -i STEPS.md -s && git add STEPS.md",
+    "precommit": "lint-staged",
+    "prettify": "prettier --write ./**/*.{json,css,scss,md,js,ts}"
   },
   "author": "Noël Macé <contact@noelmace.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.18",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "prettier": "^1.12.1",
+    "lint-staged": "^7.1.2",
+    "husky": "^0.14.3"
   },
   "dependencies": {
     "@angular-devkit/architect": "^0.12.1",
