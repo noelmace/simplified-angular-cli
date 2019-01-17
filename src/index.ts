@@ -38,27 +38,41 @@ function getWorkspace(): Observable<experimental.workspace.Workspace> {
   return workspace.loadWorkspaceFromJson(workspaceJson);
 }
 
-const commandMap: { [key: string]: (args: string[]) => any } = {
+const architectCommand = (target: string) => ([project]: string[]) => {
+  getWorkspace()
+    .pipe(
+      concatMap(ws => new Architect(ws).loadArchitect()),
+      map(architect => {
+        const targetSpec = {
+          project,
+          target
+        };
+
+        const builderConfig = architect.getBuilderConfiguration(targetSpec);
+
+        return builderConfig;
+      })
+    )
+    .subscribe(console.log);
+};
+
+interface CommandMap {
+  [key: string]: (args: string[]) => any;
+}
+
+const architectCommandMap = ['build', 'serve', 'lint', 'serve', 'test' /* , 'e2e', 'xi18n' */].reduce(
+  (acc, name) => {
+    acc[name] = architectCommand(name);
+    return acc;
+  },
+  {} as CommandMap
+);
+
+const commandMap: CommandMap = {
   help: () => {
     console.log(`everything looks fine, you do not need help`);
   },
-  build: ([project]) => {
-    getWorkspace()
-      .pipe(
-        concatMap(ws => new Architect(ws).loadArchitect()),
-        map(architect => {
-          const targetSpec = {
-            project,
-            target: 'build'
-          };
-
-          const builderConfig = architect.getBuilderConfiguration(targetSpec);
-
-          return builderConfig;
-        })
-      )
-      .subscribe(console.log);
-  }
+  ...architectCommandMap
 };
 
 function runCommand(args: string[]) {
