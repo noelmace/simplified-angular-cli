@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "version": "standard-changelog -i STEPS.md -s && git add STEPS.md"
+    "version": "conventional-changelog -p angular -i STEPS.md -s && git add STEPS.md"
   },
   "author": "Noël Macé <contact@noelmace.com>",
   "license": "MIT",
