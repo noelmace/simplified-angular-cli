@@ -2,10 +2,12 @@ import { readFileSync } from 'fs';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import { experimental, normalize, dirname } from '@angular-devkit/core';
-import { NodeJsSyncHost } from '@angular-devkit/core/node';
+import { NodeJsSyncHost, createConsoleLogger } from '@angular-devkit/core/node';
 import { Observable } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { Architect } from '@angular-devkit/architect';
+
+const logger = createConsoleLogger(true);
 
 function findUp(name: string, from: string) {
   const root = path.parse(from).root;
@@ -42,7 +44,7 @@ const architectCommand = (target: string) => ([project]: string[]) => {
   getWorkspace()
     .pipe(
       concatMap(ws => new Architect(ws).loadArchitect()),
-      map(architect => {
+      concatMap(architect => {
         const targetSpec = {
           project,
           target
@@ -50,10 +52,18 @@ const architectCommand = (target: string) => ([project]: string[]) => {
 
         const builderConfig = architect.getBuilderConfiguration(targetSpec);
 
-        return builderConfig;
+        return architect.run(builderConfig, { logger });
       })
     )
-    .subscribe(console.log);
+    .subscribe({
+      error: (err: Error) => {
+        logger.fatal(err.message);
+        if (err.stack) {
+          logger.fatal(err.stack);
+        }
+        process.exit(1);
+      }
+    });
 };
 
 interface CommandMap {
