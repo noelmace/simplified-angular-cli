@@ -9,8 +9,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "noUnusedParameters": false,  // The linter is used for these.
-    "noUnusedLocals": false,  // The linter is used for these.
+    "noUnusedParameters": false, // The linter is used for these.
+    "noUnusedLocals": false, // The linter is used for these.
     "outDir": "./dist",
     "rootDir": "./src",
     "skipDefaultLibCheck": true,
@@ -23,24 +23,11 @@
     "inlineSources": true,
     "strictNullChecks": true,
     "target": "es2017",
-    "lib": [
-      "es2017"
-    ],
+    "lib": ["es2017"],
     "baseUrl": "",
-    "rootDirs": [
-      "."
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "types": [
-      "node"
-    ]
+    "rootDirs": ["."],
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node"]
   },
-  "exclude": [
-    "tmp/**/*",
-    "dist/**/*",
-    "node_modules/**/*",
-    "workspace/**/*"
-  ]
+  "exclude": ["tmp/**/*", "dist/**/*", "node_modules/**/*", "workspace/**/*"]
 }

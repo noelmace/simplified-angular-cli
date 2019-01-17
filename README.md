@@ -1,5 +1,4 @@
-Simplified Angular CLI
-======================
+# Simplified Angular CLI
 
 > Rebuilding Angular CLI, from scratch, step-by-step.
 

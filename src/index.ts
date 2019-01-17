@@ -28,7 +28,9 @@ function findUp(name: string, from: string) {
 function getWorkspace(): Observable<experimental.workspace.Workspace> {
   const configFilePath = findUp('angular.json', process.cwd());
   if (configFilePath === null) {
-    throw new Error(`This command requires to be run in an Angular project, but a project definition could not be found.`);
+    throw new Error(
+      `This command requires to be run in an Angular project, but a project definition could not be found.`
+    );
   }
   const root = dirname(normalize(configFilePath));
   const configContent = readFileSync(configFilePath, 'utf-8');
