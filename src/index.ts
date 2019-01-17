@@ -4,6 +4,8 @@ import * as path from 'path';
 import { experimental, normalize, dirname } from '@angular-devkit/core';
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
 import { Observable } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
+import { Architect } from '@angular-devkit/architect';
 
 function findUp(name: string, from: string) {
   const root = path.parse(from).root;
@@ -41,7 +43,21 @@ const commandMap: { [key: string]: (args: string[]) => any } = {
     console.log(`everything looks fine, you do not need help`);
   },
   build: ([project]) => {
-    getWorkspace().subscribe(console.log)
+    getWorkspace()
+      .pipe(
+        concatMap(ws => new Architect(ws).loadArchitect()),
+        map(architect => {
+          const targetSpec = {
+            project,
+            target: 'build'
+          };
+
+          const builderConfig = architect.getBuilderConfiguration(targetSpec);
+
+          return builderConfig;
+        })
+      )
+      .subscribe(console.log);
   }
 };
 

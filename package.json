@@ -18,6 +18,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@angular-devkit/architect": "^0.12.1",
     "@angular-devkit/core": "^7.2.1"
   }
 }
