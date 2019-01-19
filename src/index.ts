@@ -4,8 +4,9 @@ import * as path from 'path';
 import { experimental, normalize, dirname } from '@angular-devkit/core';
 import { NodeJsSyncHost, createConsoleLogger } from '@angular-devkit/core/node';
 import { Observable } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 import { Architect } from '@angular-devkit/architect';
+import * as minimist from 'minimist';
 
 const logger = createConsoleLogger(true);
 
@@ -42,14 +43,23 @@ function getWorkspace(): Observable<experimental.workspace.Workspace> {
   return workspace.loadWorkspaceFromJson(workspaceJson);
 }
 
-const architectCommand = (target: string) => ([project]: string[]) => {
+const architectCommand = (target: string) => (args: minimist.ParsedArgs) => {
   getWorkspace()
     .pipe(
       concatMap(ws => new Architect(ws).loadArchitect()),
       concatMap(architect => {
+        const project = args._.shift()!;
+        const configuration = args.configuration || (args.prod && 'production');
+        const overrides = { ...args };
+        delete overrides['_'];
+        delete overrides.configuration;
+        delete overrides.prod;
+
         const targetSpec = {
           project,
-          target
+          target,
+          configuration,
+          overrides
         };
 
         const builderConfig = architect.getBuilderConfiguration(targetSpec);
@@ -69,7 +79,7 @@ const architectCommand = (target: string) => ([project]: string[]) => {
 };
 
 interface CommandMap {
-  [key: string]: (args: string[]) => any;
+  [key: string]: (args: minimist.ParsedArgs) => any;
 }
 
 const architectCommandMap = ['build', 'serve', 'lint', 'serve', 'test' /* , 'e2e', 'xi18n' */].reduce(
@@ -92,8 +102,10 @@ function runCommand(args: string[]) {
   if (!commandName || !(commandName in commandMap)) {
     throw new Error('Unable to find a command to run');
   }
+  const argv = minimist(args);
+
   const command = commandMap[commandName];
-  command(args);
+  command(argv);
 }
 
 if (process.argv.length < 1) {
