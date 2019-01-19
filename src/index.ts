@@ -1,6 +1,7 @@
 import { createConsoleLogger } from '@angular-devkit/core/node';
 import * as minimist from 'minimist';
 import { architectCommand } from './architect-command';
+import { schematicCommand } from './schematic-command';
 
 const logger = createConsoleLogger(true);
 
@@ -20,7 +21,8 @@ const commandMap: CommandMap = {
   help: () => {
     console.log(`everything looks fine, you do not need help`);
   },
-  ...architectCommandMap
+  ...architectCommandMap,
+  generate: schematicCommand(logger)
 };
 
 function runCommand(args: string[]) {
