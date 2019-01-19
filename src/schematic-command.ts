@@ -19,6 +19,45 @@ function getProjectByCwd(workspace: experimental.workspace.Workspace): string | 
   }
 }
 
+function getSchematicCollection(workspace: experimental.workspace.Workspace): string {
+  if (workspace) {
+    const project = getProjectByCwd(workspace);
+    if (project && workspace.getProjectCli(project)) {
+      const value = workspace.getProjectCli(project)['defaultCollection'];
+      if (typeof value == 'string') {
+        return value;
+      }
+    }
+    if (workspace.getCli()) {
+      const value = workspace.getCli()['defaultCollection'];
+      if (typeof value == 'string') {
+        return value;
+      }
+    }
+  }
+
+  if (workspace && workspace.getCli()) {
+    const value = workspace.getCli()['defaultCollection'];
+    if (typeof value == 'string') {
+      return value;
+    }
+  }
+
+  return '@schematics/angular';
+}
+
+function parseSchematicInfo(schematicName: string, workspace: experimental.workspace.Workspace): [string, string] {
+  let collectionName = getSchematicCollection(workspace);
+
+  if (schematicName) {
+    if (schematicName.includes(':')) {
+      [collectionName, schematicName] = schematicName.split(':', 2);
+    }
+  }
+
+  return [collectionName, schematicName];
+}
+
 export const schematicCommand = (logger: Logger) => (args: ParsedArgs) => {
   const parsedArgs = { ...args };
   const schematic = parsedArgs._.shift()!;
@@ -43,9 +82,11 @@ export const schematicCommand = (logger: Logger) => (args: ParsedArgs) => {
   getWorkspace()
     .pipe(
       map(ws => {
+        const [collectionName, schematicName] = parseSchematicInfo(schematic, ws);
+
         return {
-          collection: '@schematics/angular',
-          schematic: schematic,
+          collection: collectionName,
+          schematic: schematicName,
           options: {
             ...parsedArgs,
             project: getProjectByCwd(ws)
