@@ -1,3 +1,12 @@
+## [0.0.6](https://github.com/noelmace/simplified-angular-cli/compare/v0.0.5...v0.0.6) (2019-01-19)
+
+
+### Features
+
+* handle cli arguments for architect ([9c7a484](https://github.com/noelmace/simplified-angular-cli/commit/9c7a484))
+
+
+
 ## [0.0.5](https://github.com/noelmace/simplified-angular-cli/compare/v0.0.4...v0.0.5) (2019-01-17)
 
 
