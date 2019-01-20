@@ -1,3 +1,14 @@
+## [0.0.7](https://github.com/noelmace/simplified-angular-cli/compare/v0.0.6...v0.0.7) (2019-01-20)
+
+
+### Features
+
+* permit to use another schematic collection ([19236ba](https://github.com/noelmace/simplified-angular-cli/commit/19236ba))
+* schematic comman ([8f7766d](https://github.com/noelmace/simplified-angular-cli/commit/8f7766d))
+* use cwd for schematics project ([3803c4e](https://github.com/noelmace/simplified-angular-cli/commit/3803c4e))
+
+
+
 ## [0.0.6](https://github.com/noelmace/simplified-angular-cli/compare/v0.0.5...v0.0.6) (2019-01-19)
 
 
